@@ -1,0 +1,118 @@
+mysql> use sys;
+Database changed
+mysql> create table student;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> create database students;
+Query OK, 1 row affected (0.10 sec)
+
+mysql> create table student(regno int(10),name chat(16),address char(20));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'chat(16),address char(20))' at line 1
+mysql> create table student(regno int(10),name char(16),address char(20));
+ERROR 1050 (42S01): Table 'student' already exists
+mysql> create table students(regno int(10),name char(16),address char(20));
+Query OK, 0 rows affected, 1 warning (0.15 sec)
+
+mysql> show database;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'database' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| students           |
+| sys                |
++--------------------+
+5 rows in set (0.06 sec)
+
+mysql> desc students;
++---------+----------+------+-----+---------+-------+
+| Field   | Type     | Null | Key | Default | Extra |
++---------+----------+------+-----+---------+-------+
+| regno   | int      | YES  |     | NULL    |       |
+| name    | char(16) | YES  |     | NULL    |       |
+| address | char(20) | YES  |     | NULL    |       |
++---------+----------+------+-----+---------+-------+
+3 rows in set (0.04 sec)
+
+mysql> alter table students add(phnno int(10);)
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+    ->  alter table students add(phnno int(10));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+ alter table students add(phnno int(10))' at line 1
+mysql>  alter table students add(phnno int(10));
+Query OK, 0 rows affected, 1 warning (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> select*from students;
+Empty set (0.00 sec)
+
+mysql> insert into students(regno,name,address)values(23,'vamsi','chennai'),(34,'sai','chennai');
+Query OK, 2 rows affected (0.02 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select*from students;
++-------+-------+---------+-------+
+| regno | name  | address | phnno |
++-------+-------+---------+-------+
+|    23 | vamsi | chennai |  NULL |
+|    34 | sai   | chennai |  NULL |
++-------+-------+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> update students set phnno=1342567890 where regno=23;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from students;
++-------+-------+---------+------------+
+| regno | name  | address | phnno      |
++-------+-------+---------+------------+
+|    23 | vamsi | chennai | 1342567890 |
+|    34 | sai   | chennai |       NULL |
++-------+-------+---------+------------+
+2 rows in set (0.00 sec)
+
+mysql> update students set phnno=1234567890 where regno=34;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from students;
++-------+-------+---------+------------+
+| regno | name  | address | phnno      |
++-------+-------+---------+------------+
+|    23 | vamsi | chennai | 1342567890 |
+|    34 | sai   | chennai | 1234567890 |
++-------+-------+---------+------------+
+2 rows in set (0.00 sec)
+
+mysql> alter table students rename column regno to regNo;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select*from student;
+Empty set (0.00 sec)
+
+mysql> select*from students;
++-------+-------+---------+------------+
+| regNo | name  | address | phnno      |
++-------+-------+---------+------------+
+|    23 | vamsi | chennai | 1342567890 |
+|    34 | sai   | chennai | 1234567890 |
++-------+-------+---------+------------+
+2 rows in set (0.00 sec)
+
+mysql> delete from students phnno where regNo=23;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from students;
++-------+------+---------+------------+
+| regNo | name | address | phnno      |
++-------+------+---------+------------+
+|    34 | sai  | chennai | 1234567890 |
++-------+------+---------+------------+
+1 row in set (0.00 sec)
+
+mysql> drop table students;
+Query OK, 0 rows affected (0.07 sec)
